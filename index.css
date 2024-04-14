@@ -78,7 +78,14 @@ p {
   justify-content: space-between;
   padding: 0px 15px;
   display: flex;
+  flex-direction: column;
   margin-top: 10px;
+}
+.task{
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .right {
   display: flex;
@@ -92,4 +99,21 @@ p {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.title a{
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+}
+.links-pages {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  margin-top: 10px;
+  gap:1rem;
+
+}
+.links-pages a{
+  text-decoration: none;
+
 }
