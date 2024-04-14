@@ -1,27 +1,24 @@
-const form = document.getElementById("signupForm");
-
+const loginForm = document.getElementById("loginForm");
 const messageDiv = document.getElementById("message");
 let arr = [];
 
-form.addEventListener("submit", handleSignupSubmit);
+loginForm.addEventListener("submit", handleLoginSubmit);
 
 function setMessage(message, color) {
   messageDiv.textContent = message;
   messageDiv.style.color = color;
 }
 
-async function handleSignupSubmit(e) {
+async function handleLoginSubmit(e) {
   e.preventDefault();
 
-  const email = form.email.value;
-  const password = form.password.value;
-  const confirmPassword = form.coPassword.value;
+  const email = loginForm.email.value;
+  const password = loginForm.password.value;
 
   console.log("Email:", email);
   console.log("Password:", password);
-  console.log("Confirm Password:", confirmPassword);
 
-  if (!confirmPassword && !email && !password) {
+  if (!email && !password) {
     setMessage("Please fill in all the required fields.\n", "red");
     return;
   } else {
@@ -29,27 +26,9 @@ async function handleSignupSubmit(e) {
       setMessage("Please enter password\n", "red");
       return;
     }
-    if (!confirmPassword) {
-      setMessage("Please enter confirm password\n", "red");
-      return;
-    }
+
     if (!email) {
       setMessage("Please enter your email address.\n", "red");
-      return;
-    } else {
-      const emailRegex =
-        /^[^\s@%?,/<>\-]+@(gmail\.com|yahoo\.com|otherdomain\.com)$/;
-      if (!emailRegex.test(email)) {
-        setMessage(
-          "Please enter a valid email address with the correct domain (e.g., gmail.com, yahoo.com, otherdomain.com).\n",
-          "red"
-        );
-        return;
-      }
-    }
-
-    if (password !== confirmPassword) {
-      setMessage("Passwords do not match", "red");
       return;
     }
   }
@@ -57,7 +36,7 @@ async function handleSignupSubmit(e) {
   try {
     // Post form data using fetch
     const response = await fetch(
-      "http://localhost:3000/api/v1/todoApp/user/registerUser",
+      "http://localhost:3000/api/v1/todoApp/user/loginUser",
       {
         method: "POST",
         headers: {
@@ -70,13 +49,28 @@ async function handleSignupSubmit(e) {
       }
     );
 
-    console.log("Form submitted successfully");
-    setMessage("Your account has been created", "green");
+    if (response.status === 401) {
+      // If unauthorized, set invalid email or password message
+      setMessage("Invalid email or password", "red");
+      return;
+    }
 
-    window.location.href = "login.html";
+    if (!response.ok) {
+      throw new Error("Failed to login");
+    }
+    const data = await response.json();
+    const token = data.token;
+
+    // Store the token in local storage
+    localStorage.setItem("token", token);
+
+    console.log("Form submitted successfully");
+    setMessage("login successfully", "green");
+
+     window.location.href = "todo.html";
 
     // Clear form fields
-    form.reset();
+    loginForm.reset();
   } catch (error) {
     console.error("Error posting form data:", error);
     setMessage("Error submitting form. Please try again later.", "red");
@@ -85,7 +79,6 @@ async function handleSignupSubmit(e) {
   const person = {
     email,
     password,
-    confirm: confirmPassword,
   };
 
   arr.push(person);
