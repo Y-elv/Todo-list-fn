@@ -17,18 +17,23 @@
         </a>
         <div class="bar">
             <h4>Create Tasks</h4>
-
         </div>
-
-
-
-
-
-
-
-
-
-        <script src="todo.js"></script>
+            <div class="form">
+            <form id="taskForm">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required><br>
+            
+                <label for="description">Description:</label><br>
+                <textarea id="description" name="description" rows="4" cols="50"></textarea><br>
+            
+                <label for="completed">Completed:</label>
+                <input type="checkbox" id="completed" name="completed"><br>
+                <div id="message" style="margin-top: 5px;"></div>
+                <button type="submit"id="btn-submit">Submit</button>
+            </form>
+            </div>
+    
+  <script src="create.js"></script>
 </body>
 
 </html>
