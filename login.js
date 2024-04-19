@@ -4,10 +4,7 @@ let arr = [];
 
 loginForm.addEventListener("submit", handleLoginSubmit);
 
-function setMessage(message, color) {
-  messageDiv.textContent = message;
-  messageDiv.style.color = color;
-}
+
 
 async function handleLoginSubmit(e) {
   e.preventDefault();
@@ -59,7 +56,8 @@ async function handleLoginSubmit(e) {
       throw new Error("Failed to login");
     }
     const data = await response.json();
-    const token = data.token;
+    const token = data.message.token;
+    console.log("token:",token);
 
     // Store the token in local storage
     localStorage.setItem("token", token);
@@ -83,4 +81,9 @@ async function handleLoginSubmit(e) {
 
   arr.push(person);
   console.log(arr);
+}
+
+function setMessage(message, color) {
+  messageDiv.textContent = message;
+  messageDiv.style.color = color;
 }

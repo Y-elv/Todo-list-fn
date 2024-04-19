@@ -7,7 +7,7 @@ function fetchTasks() {
     return;
   }
 
-  fetch("http://localhost:3000/api/v1/todoApp/task/readAll", {
+  fetch("http://localhost:3000/api/v1/todoApp/task/getAll", {
     method: "GET",
     headers: {
       authorization: `${token}`,
@@ -21,8 +21,8 @@ function fetchTasks() {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
-      displayTasks(data.data); 
+      console.log(data.message);
+      displayTasks(data.message);
     })
     .catch((error) => {
       console.log("Error:", error);
@@ -49,7 +49,9 @@ function displayTasks(tasks) {
                     <p>${task.description}</p>
                 </div>
                 <div class="right">
-                    <i class="fa-solid fa-pen-to-square"></i>
+                    <i class="fa-solid fa-pen-to-square"data-task-id="${
+                      task.id
+                    }"></i>
                     <i class="fa-solid fa-trash"data-task-id="${task.id}"></i>
                 </div>
             `;
@@ -59,6 +61,16 @@ function displayTasks(tasks) {
      deleteIcon.addEventListener("click", () => {
        deleteTask(task._id);
      });
+
+     const editIcon = taskElement.querySelector(".fa-pen-to-square");
+     editIcon.addEventListener("click", () => {
+       redirectToUpdatePage(task._id);
+     });
+
+     function redirectToUpdatePage(taskId) {
+       // Redirect to update.html with taskId as a query parameter
+       window.location.href = `updateTask.html?taskId=${taskId}`;
+     }
   });
 }
 
@@ -82,3 +94,4 @@ function deleteTask(taskId) {
       console.log("Error:", error);
     });
 }
+
