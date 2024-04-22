@@ -4,8 +4,6 @@ let arr = [];
 
 loginForm.addEventListener("submit", handleLoginSubmit);
 
-
-
 async function handleLoginSubmit(e) {
   e.preventDefault();
 
@@ -57,15 +55,17 @@ async function handleLoginSubmit(e) {
     }
     const data = await response.json();
     const token = data.message.token;
-    console.log("token:",token);
+    console.log("token:", token);
 
     // Store the token in local storage
     localStorage.setItem("token", token);
 
     console.log("Form submitted successfully");
-    setMessage("login successfully", "green");
+    setMessage("Login Successfully", "green");
 
-     window.location.href = "todo.html";
+    setTimeout(() => {
+      window.location.href = "todo.html";
+    }, 3000);
 
     // Clear form fields
     loginForm.reset();

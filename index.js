@@ -73,7 +73,9 @@ async function handleSignupSubmit(e) {
     console.log("Form submitted successfully");
     setMessage("Your account has been created", "green");
 
-    window.location.href = "login.html";
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 4000);
 
     // Clear form fields
     form.reset();
